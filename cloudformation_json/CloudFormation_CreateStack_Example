@@ -1,0 +1,14 @@
+{
+	"Stack" : {
+		"Type" : "AWS::CloudFormation::Stack",
+		"Properties" : {
+			"StackName" : "Hello",
+			"Parameters" : [
+				{
+					"ParameterKey" : "KeyPair",
+					"ParameterValue" : "CodingTestKey"
+				}
+			]
+		}
+	}
+}

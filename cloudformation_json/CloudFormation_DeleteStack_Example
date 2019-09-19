@@ -1,0 +1,8 @@
+{
+	"Stack" : {
+		"Type" : "AWS::CloudFormation::Stack",
+		"Properties" : {
+			"StackName": "Hello",
+		}
+	}
+}

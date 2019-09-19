@@ -1,0 +1,47 @@
+# Create Stack Skeleton for CloudFormation
+# aws cli : aws cloudformation create-stack --generate-cli-skeleton > skeleton_file.json
+
+{
+	"StackName": "",
+	"TemplateBody": "",
+	"TemplateURL": "",
+	"UsePreviousTemplate": true,
+	"StackPolicyDuringUpdateBody": "",
+	"StackPolicyDuringUpdateURL": "",
+	"Parameters": [
+		{
+			"ParameterKey": "",
+			"ParameterValue": "",
+			"UsePreviousValue": true,
+			"ResolvedValue": ""
+		}
+	],
+	"Capabilities": [
+		"CAPABILITY_IAM"
+	],
+	"ResourceTypes": [
+		""
+ 	],
+	"RoleARN": "",
+	"RollbackConfiguration": {
+		"RollbackTriggers": [
+			{
+				"Arn": "",
+				"Type": ""
+			}
+		],
+		"MonitoringTimeInMinutes": 0
+	},
+	"StackPolicyBody": "",
+	"StackPolicyURL": "",
+	"NotificationARNs": [
+		""
+	],
+	"Tags": [
+			{
+				"Key": "",
+				"Value": ""
+			}
+	],
+	"ClientRequestToken": ""
+}

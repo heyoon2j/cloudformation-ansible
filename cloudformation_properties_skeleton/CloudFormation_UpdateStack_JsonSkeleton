@@ -1,0 +1,48 @@
+# Update Stack Skeleton for CloudFormation
+# aws cli : aws cloudformation update-stack --generate-cli-skeleton > skeleton.json
+
+{
+	"StackName": "",
+	"TemplateBody": "",
+	"TemplateURL": "",
+	"Parameters": [
+		{
+			"ParameterKey": "",
+			"ParameterValue": "",
+			"UsePreviousValue": true,
+			"ResolvedValue": ""
+		}
+	],
+	"DisableRollback": true,
+	"RollbackConfiguration": {
+		"RollbackTriggers": [
+			{
+				"Arn": "",
+				"Type": ""
+			}
+		],
+		"MonitoringTimeInMinutes": 0
+	},
+	"TimeoutInMinutes": 0,
+	"NotificationARNs": [
+		""
+	],
+	"Capabilities": [
+		"CAPABILITY_AUTO_EXPAND"
+	],
+	"ResourceTypes": [
+		""
+	],
+	"RoleARN": "",
+	"OnFailure": "ROLLBACK",
+	"StackPolicyBody": "",
+	"StackPolicyURL": "",
+	"Tags": [
+		{
+			"Key": "",
+			"Value": ""
+		}
+	],
+	"ClientRequestToken": "",
+	"EnableTerminationProtection": true
+}

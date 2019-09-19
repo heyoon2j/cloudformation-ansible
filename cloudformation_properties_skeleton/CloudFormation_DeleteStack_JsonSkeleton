@@ -1,0 +1,13 @@
+# Delete Stack Skeleton for CloudFormation
+# aws cli : aws cloudformation delete-stack --generate-cli-skeleton > skeleton_file.json
+
+# RetainResources : Retain Resource ID list
+
+{
+	"StackName": "",
+	"RetainResources": [
+		""
+	],
+	"RoleARN": "",
+	"ClientRequestToken": ""
+}
