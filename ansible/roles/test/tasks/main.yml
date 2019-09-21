@@ -1,0 +1,6 @@
+---
+# tasks file for test
+- name: Install httpd
+  yum:
+    name: httpd
+    state: installed
