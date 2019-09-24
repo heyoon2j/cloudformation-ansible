@@ -20,7 +20,7 @@
   unarchive:
     src: /usr/local/java/OpenJDK8.tar.gz
     dest: /usr/local/java/OpenJDK8
-    remote_src: yes
+    remote_src: no
 
 
 # Simbolic Link
