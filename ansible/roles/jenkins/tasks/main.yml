@@ -76,7 +76,7 @@
 
 - name: Install Font
   yum:
-    name: ['dejavu-sans-fonts', 'xorg-x11-server-Xvfb']
+    name: ['dejavu-sans-fonts', 'xorg-x11-server-Xvfb', 'fontconfig']
     state: installed
 
 
