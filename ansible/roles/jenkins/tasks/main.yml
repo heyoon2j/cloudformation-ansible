@@ -30,6 +30,12 @@
     remote_src: no
 
 
+# Shell
+- name: Rename File
+  sudo: yes
+  shell: mv /usr/local/java/jdk8u222-b10 /usr/local/java/OpenJDK8
+
+
 # Simbolic Link
 - name: Create a symbolic link
   file:
