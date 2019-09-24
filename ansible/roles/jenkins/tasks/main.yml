@@ -8,12 +8,12 @@
     path: /usr/local/java
     state: directory
 
+
 # Download OpenJDK,  wget -O /usr/local/java/OpenJDK8.tar.gz https://github.com/AdoptOpenJDK/openjdk8-binaries/releases/download/jdk8u222-b10/OpenJDK8U-jdk_x64_linux_hotspot_8u222b10.tar.gz
 - name: Download OpenJDK
   get_url:
     url: https://github.com/AdoptOpenJDK/openjdk8-binaries/releases/download/jdk8u222-b10/OpenJDK8U-jdk_x64_linux_hotspot_8u222b10.tar.gz
     dest: /usr/local/java/OpenJDK8.tar.gz
-
 
 
 # Unarchive a file
@@ -31,7 +31,7 @@
   command: "{{ item }}"
   with_items:
     - ln -s /usr/local/java/jdk8u222-b10/ /usr/local/java/jdk
-    - echo "export JAVA_HOME=/usr/local/java/jdk" >>  /etc/profile
+    - echo "export JAVA_HOME=/usr/local/java/jdk/" >>  /etc/profile
     - echo "export PATH=$PATH:$JAVA_HOME/bin" >> /etc/profile
     - source /etc/profile
 
