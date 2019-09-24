@@ -2,11 +2,16 @@
 # tasks file for jenkins
 # Jenkins Install Example
 
+# Make Directory for JAVA
+- name: make Directory
+  file:
+    path: /usr/local/java
+    state: directory
+
 
 # Java Install
 - name: Install OpenJDK
   shell:
-    mkdir /usr/local/java
     wget -O /usr/local/java/OpenJDK8.tar.gz https://github.com/AdoptOpenJDK/openjdk8-binaries/releases/download/jdk8u222-b10/OpenJDK8U-jdk_x64_linux_hotspot_8u222b10.tar.gz
     tar xvfz /usr/local/java/OpenJDK8.tar.gz -C /usr/local/java/OpenJDK8
     ln -s /usr/local/java/OpenJDK8/ jdk
