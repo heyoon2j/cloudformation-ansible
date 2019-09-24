@@ -6,7 +6,7 @@
 - name: Import Jenkins GPG key
   rpm_key:
     state: present
-    key: http://pkg.jenkins-ci.org/redhat/jenkns-ci.org.key
+    key: https://pkg.jenkins.io/redhat/jenkins.io.key
 
 
 # add and unable jenkins repository 
