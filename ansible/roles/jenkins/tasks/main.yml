@@ -24,17 +24,23 @@
     remote_src: no
 
 
+# Simbolic Link
+- name: Create a symbolic link
+  file:
+    src: /usr/local/java/jdk8u222-b10/
+    dest: /usr/local/java/jdk
+    owner: root
+    group: root
+    state: link
+
 
 # Command
 - name: Config JAVA Environment Variable
   sudo: yes
   command: "{{ item }}"
   with_items:
-    - ln -s /usr/local/java/jdk8u222-b10/ /usr/local/java/jdk
     - echo "export JAVA_HOME=/usr/local/java/jdk/" >>  /etc/profile
     - echo "export PATH=$PATH:$JAVA_HOME/bin" >> /etc/profile
-    - source /etc/profile
-
 
 # Import GPG Key(RPM Package Install)
 
