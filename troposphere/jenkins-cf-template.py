@@ -6,7 +6,7 @@ from awacs.sts import AssumeRole
 
 AnsiblePlaybookFile = "ansible/jenkins.yml"
 ApplicationPort = "8080"
-GithubAnsibleURL = "https://github.com/yoon2ix/cloudformation-ansible.git"
+GithubAnsibleURL = "https://github.com/yoon2ix/cloudformation-ansible"
 HostFile = "ansible/hosts"
 KeyPairName = "CodingTestKey"
 
@@ -75,8 +75,9 @@ security_param=t.add_resource(
 ud=Base64(
 	Join('\n',[
 		"#!/bin/bash",
-		"sudo yum install --enablerepo=epel -y nodejs",
+		"sudo yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm"
 		"yum install --enablerepo=epel -y git",
+		"yum install -y python-pip"
 		"pip install ansible",
 		AnsiblePullCmd
 	])
