@@ -9,7 +9,6 @@ import sys
 import boto3
 import botocore
 
-# Cloudformation Client 설정
 cf = boto3.client('cloudformation')  # pylint: disable=C0103
 log = logging.getLogger('deploy.cf.create_or_update')  # pylint: disable=C0103
 
@@ -22,10 +21,14 @@ def main(json_file, template):
 
 	stack_name = json_data['Stack']['Properties']['StackName']
 
+	#if json_data['Stack']['Properties']['Capabilities']:
+        capabilities = json_data['Stack']['Properties']['Capabilities']
+
 	params = {
 		'StackName': stack_name,
 		'TemplateBody': template_data,
 		'Parameters': json_data['Stack']['Properties']['Parameters'],
+		'Capabilities': capabilities,
 	}
 
 	try:
@@ -66,6 +69,16 @@ def _parse_json(json_file):
 	with open(json_file) as json_fileobj:
 		json_data = json.load(json_fileobj)
 	return json_data	
+
+
+def _stack_exists(stack_name):
+    stacks = cf.list_stacks()['StackSummaries']
+    for stack in stacks:
+        if stack['StackStatus'] == 'DELETE_COMPLETE':
+            continue
+        if stack_name == stack['StackName']:
+            return True
+    return False
 
 
 def json_serial(obj):

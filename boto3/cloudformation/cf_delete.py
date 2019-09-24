@@ -29,6 +29,7 @@ def main(json_file):
 			
 		else:
 			print('No Stack!!!')
+			return
 
 		print("...waiting for stack to be ready...")
 		waiter.wait(StackName=stack_name)
@@ -45,6 +46,8 @@ def main(json_file):
 		#else:
 		#	raise
 	else:
+		print('{} Stack Delete!!!'.format(stack_name))
+		"""
 		print(json.dumps(
 			cf.describe_stacks(
 				StackName=stack_result['StackId']),
@@ -52,9 +55,8 @@ def main(json_file):
 				default=json_serial
 			)
 		)
+		"""
 
-
-# parameter_data에 JSON 파일로 로드
 def _parse_json(json_file):
 	with open(json_file) as json_fileobj:
 		json_data = json.load(json_fileobj)
