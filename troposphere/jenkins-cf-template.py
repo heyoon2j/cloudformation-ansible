@@ -75,9 +75,9 @@ security_param=t.add_resource(
 ud=Base64(
 	Join('\n',[
 		"#!/bin/bash",
-		"sudo yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm"
+		"sudo yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm",
 		"yum install --enablerepo=epel -y git",
-		"yum install -y python-pip"
+		"yum install -y python-pip",
 		"pip install ansible",
 		AnsiblePullCmd
 	])

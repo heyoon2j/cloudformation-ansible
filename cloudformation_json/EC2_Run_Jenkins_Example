@@ -154,8 +154,10 @@
                             "\n",
                             [
                                 "#!/bin/bash",
-                                "sudo yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpmyum install --enablerepo=epel -y git",
-                                "yum install -y python-pippip install ansible",
+                                "sudo yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm",
+                                "yum install --enablerepo=epel -y git",
+                                "yum install -y python-pip",
+                                "pip install ansible",
                                 "/usr/bin/ansible-pull -U https://github.com/yoon2ix/cloudformation-ansible ansible/jenkins.yml -i ansible/hosts_jenkins"
                             ]
                         ]
