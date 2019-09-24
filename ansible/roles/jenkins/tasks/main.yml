@@ -15,6 +15,13 @@
     dest: /usr/local/java/OpenJDK8.tar.gz
 
 
+# Make Unarchive Directory
+- name: Make Unarchive Directory
+  file:
+    path: /usr/local/java/OpenJDK8
+    state: directory
+
+
 # Unarchive a file
 - name: Unarchive a file that is already on the remote machine
   unarchive:
