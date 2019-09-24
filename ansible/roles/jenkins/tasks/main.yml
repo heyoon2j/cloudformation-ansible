@@ -43,10 +43,10 @@
 # Shell
 - name: Config JAVA Environment Variable
   sudo: yes
-  shell: 
-    echo "export JAVA_HOME=/usr/local/java/jdk" >>  /etc/profile
-    echo "export PATH=$PATH:$JAVA_HOME/bin" >> /etc/profile
-    soucre /etc/profile
+  shell: [
+    echo "export JAVA_HOME=/usr/local/java/jdk" >>  /etc/profile,
+    echo "export PATH=$PATH:$JAVA_HOME/bin" >> /etc/profile,
+    soucre /etc/profile ]
 
 
 
