@@ -79,7 +79,7 @@
 
 # Install font
 
-- name: Install httpd
+- name: Install Font
   yum:
     name: ['dejavu-sans-fonts', 'xorg-x11-server-Xvfb']
     state: installed
@@ -94,6 +94,11 @@
 
 
 # chkconfig enable
+
+- name: Reload Daemon
+  service:
+    name: daemon-reload
+
 - name: Start Jenkins
   service:
     name: jenkins
