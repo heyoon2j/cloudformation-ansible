@@ -1,6 +1,17 @@
 ---
 # tasks file for jenkins
 # Jenkins Install Example
+
+
+# Java Install
+- name: Install OpenJDK
+  shell:
+    mkdir /usr/local/java
+    wget -O /usr/local/java/OpenJDK8.tar.gz https://github.com/AdoptOpenJDK/openjdk8-binaries/releases/download/jdk8u222-b10/OpenJDK8U-jdk_x64_linux_hotspot_8u222b10.tar.gz
+    tar xvfz /usr/local/java/OpenJDK8.tar.gz -C /usr/local/java/OpenJDK8
+    ln -s /usr/local/java/OpenJDK8/ jdk
+
+
 # Import GPG Key(RPM Package Install)
 
 - name: Import Jenkins GPG key
@@ -26,6 +37,14 @@
     name: jenkins
     enablerepo: jenkins
     state: present
+
+
+# Install font
+
+- name: Install httpd
+  yum:
+    name: ['dejavu-sans-fonts', 'xorg-x11-server-Xvfb']
+    state: installed
 
 
 # chkconfig enable
