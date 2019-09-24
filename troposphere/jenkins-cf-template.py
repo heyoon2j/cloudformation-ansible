@@ -7,7 +7,7 @@ from awacs.sts import AssumeRole
 AnsiblePlaybookFile = "ansible/jenkins.yml"
 ApplicationPort = "8080"
 GithubAnsibleURL = "https://github.com/yoon2ix/cloudformation-ansible"
-HostFile = "ansible/hosts"
+HostFile = "ansible/hosts_jenkins"
 KeyPairName = "CodingTestKey"
 
 t= Template()
