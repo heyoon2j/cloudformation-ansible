@@ -94,10 +94,10 @@
 
 
 # chkconfig enable
+- name: just force systemd to reread configs (2.4 and above)
+  systemd:
+    daemon_reload: yes
 
-- name: Reload Daemon
-  service:
-    name: daemon-reload
 
 - name: Start Jenkins
   service:
