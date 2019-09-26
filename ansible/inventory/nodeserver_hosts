@@ -1,0 +1,7 @@
+all:
+  hosts:
+    test:
+     hosts:
+       test.test.com
+    vars:
+      ansible_connection: ssh
