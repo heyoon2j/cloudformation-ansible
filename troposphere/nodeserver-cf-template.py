@@ -44,7 +44,7 @@ t.add_resource(IAMPolicy(
 			),
 		]
 	),
-	Roles=[Ref("cfnrole")]
+	Roles=[Ref(cfnrole)]
 ))
 
 cfninstanceprofile = t.add_resource(InstanceProfile(

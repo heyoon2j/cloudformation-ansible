@@ -1,0 +1,6 @@
+{
+    "CidrBlock": "", 
+    "AmazonProvidedIpv6CidrBlock": true, 
+    "DryRun": true, 
+    "InstanceTenancy": "host"
+}

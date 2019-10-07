@@ -1,0 +1,11 @@
+{
+	"Stack" : {
+		"Type" : "AWS::CloudFormation::Stack",
+		"Properties" : {
+			"StackName" : "DevOpsVPC",
+			"Parameters" : [
+			],
+			"Capabilities" : []
+		}
+	}
+}
