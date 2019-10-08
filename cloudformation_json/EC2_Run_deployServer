@@ -161,7 +161,28 @@
                                 "yum install --enablerepo=epel -y git",
                                 "yum install -y python-pip",
                                 "pip install ansible",
-                                "/usr/bin/ansible-pull -U https://github.com/yoon2ix/cloudformation-ansible.git ansible/deployServer.yml -i inventory/deployServer_hosts"
+                                "ansibleDefaultPath=/etc/ansible",
+                                "if [ -d $ansibleDefaultPath ]; then",
+                                "\techo \"$ansibleDefaultPath Directory Exist\"",
+                                "else",
+                                "\tmkdir $ansibleDefaultPath",
+                                "fi",
+                                "cd $ansibleDefaultPath",
+                                "if [ -e ansible.cfg ]; then",
+                                "       echo \"ansible.cfg Exist\"",
+                                "else",
+                                "       touch ansible.cfg",
+                                "fi",
+                                "cat << EOF > /etc/ansible/ansible.cfg",
+                                "[defaults]",
+                                "inventory = inventory/hosts",
+                                "remote_user = ec2-user",
+                                "become = true",
+                                "become_method = sudo",
+                                "become_user = root",
+                                "library = library",
+                                "EOF",
+                                "/usr/bin/ansible-pull -U https://github.com/yoon2ix/cloudformation-ansible.git ansible/deployServer.yml"
                             ]
                         ]
                     }

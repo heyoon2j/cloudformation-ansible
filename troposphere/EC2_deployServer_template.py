@@ -20,7 +20,7 @@ t= Template()
 t.add_description("Effective DevOps in AWS: Deploy Template")
 
 # Deploy Server for Ansible
-AnsiblePullCmd = "/usr/bin/ansible-pull -U {} {} -i {}".format(GithubAnsibleURL, AnsiblePlaybookFile, HostFile)
+AnsiblePullCmd = "/usr/bin/ansible-pull -U {} {}".format(GithubAnsibleURL, AnsiblePlaybookFile)
 
 
 # AWS IAM Profile
@@ -86,6 +86,27 @@ ud=Base64(
 		"yum install --enablerepo=epel -y git",
 		"yum install -y python-pip",
 		"pip install ansible",
+		"ansibleDefaultPath=/etc/ansible",
+		"if [ -d $ansibleDefaultPath ]; then",
+		"	echo \"$ansibleDefaultPath Directory Exist\"",
+		"else",
+		"	mkdir $ansibleDefaultPath",
+		"fi",
+		"cd $ansibleDefaultPath",
+		"if [ -e ansible.cfg ]; then",      
+		"       echo \"ansible.cfg Exist\"",
+		"else",
+		"       touch ansible.cfg",
+		"fi",
+		"cat << EOF > /etc/ansible/ansible.cfg",
+		"[defaults]",
+		"inventory = inventory/hosts",
+		"remote_user = ec2-user",
+		"become = true",
+		"become_method = sudo",
+		"become_user = root",
+		"library = library",
+		"EOF",
 		AnsiblePullCmd
 	])
 )

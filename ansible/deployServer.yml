@@ -1,8 +1,7 @@
-- hosts: "{{ target | default( 'localhost' )}}"
+- hosts: "{{ deployServer | default( 'localhost' )}}"
   remote_user: ec2-user
   become: yes
   become_user: root
   become_method: sudo
   roles: 
     - deployServer
-  library: library
