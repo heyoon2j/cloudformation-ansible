@@ -101,12 +101,10 @@ ud=Base64(
 		"fi",
 		"cat << EOF > /etc/ansible/ansible.cfg",
 		"[defaults]",
-		"inventory = inventory/hosts",
 		"remote_user = ec2-user",
 		"become = true",
 		"become_method = sudo",
 		"become_user = root",
-		"library = library",
 		"EOF",
 		AnsiblePullCmd
 	])

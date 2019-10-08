@@ -103,9 +103,9 @@
   sudo: yes
   shell: "{{ item }}"
   with_items:
-    - amazon-linux-extras install -y docker
-    - systemctl enable docker
-    - systemctl start docker
+    - /usr/bin/amazon-linux-extras install -y docker
+    - /usr/bin/systemctl enable docker
+    - /usr/bin/systemctl start docker
     - usermod -a -G docker ec2-user
     - curl -L "https://github.com/docker/compose/releases/download/1.24.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
     - chmod +x /usr/local/bin/docker-compose
