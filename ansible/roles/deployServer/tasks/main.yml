@@ -60,14 +60,14 @@
 
 
 # Install pip3
-- name: Install pip3
+- pip:
+    name: 
   sudo: yes
   shell: "{{ item }}"
   with_items:
-    - python3.6 get-pip.py
-    - pip3 install --upgrade pip
-    - pip3 install ansible
-
+    - /usr/bin/python3.6 get-pip.py
+    - /usr/local/bin/pip3 install --upgrade pip
+    - /usr/local/bin/pip3 install ansible
 
 
 ## Install AWS Python Library
