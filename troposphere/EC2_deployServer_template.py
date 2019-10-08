@@ -9,7 +9,7 @@ from awacs.sts import AssumeRole
 AnsiblePlaybookFile = "ansible/deployServer.yml"
 ApplicationPort = "80"
 GithubAnsibleURL = "https://github.com/yoon2ix/cloudformation-ansible.git"
-VpvID = "vpc-0a93272040286fd79"
+VpcID = "vpc-0a93272040286fd79"
 SubnetID = "subnet-07f69f1a00576f7de"
 
 
@@ -57,7 +57,7 @@ security_param=t.add_resource(
 		"SecurityGroup",
 		GroupDescription="Allow SSH and TCP/{} access".format(ApplicationPort),
 		GroupName="DeployServer-SG",
-		VpcId=VpvID,
+		VpcId=VpcID,
 		SecurityGroupIngress=[
 			ec2.SecurityGroupRule(
 				IpProtocol="tcp",
