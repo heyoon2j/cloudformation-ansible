@@ -13,14 +13,14 @@ VpvID = "vpc-0a93272040286fd79"
 SubnetID = "subnet-07f69f1a00576f7de"
 SecurityGroupID = "sg-00a44143f9b9fe72c"
 SecurityGroupName = "Deployment-SG"
-
+HostFile = "inventory/deployServer_hosts"
 
 t= Template()
 
 t.add_description("Effective DevOps in AWS: Deploy Template")
 
 # Deploy Server for Ansible
-AnsiblePullCmd = "/usr/bin/ansible-pull -U {} {}".format(GithubAnsibleURL, AnsiblePlaybookFile)
+AnsiblePullCmd = "/usr/bin/ansible-pull -U {} {} -i {}".format(GithubAnsibleURL, AnsiblePlaybookFile, HostFile)
 
 
 # AWS IAM Profile

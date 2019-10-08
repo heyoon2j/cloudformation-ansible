@@ -161,7 +161,7 @@
                                 "yum install --enablerepo=epel -y git",
                                 "yum install -y python-pip",
                                 "pip install ansible",
-                                "/usr/bin/ansible-pull -U https://github.com/yoon2ix/cloudformation-ansible.git ansible/deployServer.yml"
+                                "/usr/bin/ansible-pull -U https://github.com/yoon2ix/cloudformation-ansible.git ansible/deployServer.yml -i inventory/deployServer_hosts"
                             ]
                         ]
                     }
