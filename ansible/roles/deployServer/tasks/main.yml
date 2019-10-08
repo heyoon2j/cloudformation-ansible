@@ -1,0 +1,109 @@
+---
+# tasks file for deployServer
+### Deploy Server
+
+
+## Install EPEL Repository
+# https://dl.fedoraproject.org/pub/epel/
+- name: Import EPEL GPG key
+  rpm_key:
+    state: present
+    key: https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-7
+
+
+# Add EPEL Repository
+- name: Add EPEL Repository
+  yum_repository:
+    name: epel
+    description: epel yum repository
+    baseurl: https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+    enabled: no
+    gpgcheck: yes
+
+
+## Install Git
+- name: Install Git
+  yum:
+    name: git
+    enablerepo: epel
+    state: present
+
+
+## Install Ansible
+# Add IUS Repository
+- name: Add IUS Repository
+  yum_repository:
+    name: ius
+    description: ius yum repository
+    baseurl: https://centos7.iuscommunity.org/ius-release.rpm
+    enabled: no
+
+
+# Install Python3.6
+- name: Install Python 3.6
+  yum:
+    name: ['python36u','python36u-libs','python36u-devel','python36u-pip']
+    enablerepo: ius
+    state: present
+
+
+
+# Wget https://bootstrap.pypa.io/get-pip.py
+- name: Download get-pip.py
+  get_url: 
+    url: https://bootstrap.pypa.io/get-pip.py
+    dest: ~/
+
+
+# Install pip3
+- name: Install pip3
+  sudo: yes
+  shell: "{{ item }}"
+  with_items:
+    - python3.6 get-pip.py
+    - pip3 install --upgrade pip
+    - pip3 install ansible
+
+
+
+## Install AWS Python Library
+# Config File Set
+- name: AWS Config File Set
+  sudo: yes
+  shell: "{{ item }}"
+  with_items:
+    - mkdir -p ~/.aws
+    - touch ~/.aws/config
+    - echo "[defualt]" >> ~/.aws/config
+    - echo "region = ap-northeast-2" >> ~/.aws/config
+    - touch ~/.aws/credentials
+    - echo "[defualt]" >> ~/.aws/credentials
+    - echo "aws_access_key_id=" >> ~/.aws/credentials
+    - echo "aws_secret_access_key=" >> ~/.aws/credentials
+
+
+# Install Python Library
+- name: Install pip3
+  sudo: yes
+  shell: "{{ item }}"
+  with_items:
+    - pip3 install troposphere
+    - pip3 install ipify
+    - pip3 install ipaddress
+    - pip3 install awacs
+    - pip3 install boto3
+
+
+## Docker Install
+# Install Docker
+- name: Install Docker
+  sudo: yes
+  shell: "{{ item }}"
+  with_items:
+    - amazon-linux-extras install -y docker
+    - systemctl enable docker
+    - systemctl start docker
+    - usermod -a -G docker ec2-user
+    - curl -L "https://github.com/docker/compose/releases/download/1.24.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+    - chmod +x /usr/local/bin/docker-compose
+    - ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
