@@ -31,12 +31,17 @@
 
 ## Install Ansible
 # Add IUS Repository
-- name: Add IUS Repository
-  yum_repository:
-    name: ius
-    description: ius yum repository
-    baseurl: https://centos7.iuscommunity.org/ius-release.rpm
-    enabled: yes
+#- name: Add IUS Repository
+#  yum_repository:
+#    name: ius
+#   description: ius yum repository
+#    baseurl: https://centos7.iuscommunity.org/ius-release.rpm
+#    enabled: yes
+
+- name: Install IUS Repository
+  yum:
+    name: https://centos7.iuscommunity.org/ius-release.rpm
+    state: installed
 
 
 # Install Python3.6
