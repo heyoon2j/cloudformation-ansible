@@ -182,7 +182,7 @@
                                 "become_user = root",
                                 "library = library",
                                 "EOF",
-                                "/usr/bin/ansible-pull -U https://github.com/yoon2ix/cloudformation-ansible.git ansible/deployServer.yml"
+                                "/usr/bin/ansible-pull -U https://github.com/yoon2ix/cloudformation-ansible.git ansible/deployServer.yml -i"
                             ]
                         ]
                     }

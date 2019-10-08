@@ -8,6 +8,7 @@ from awacs.sts import AssumeRole
 
 AnsiblePlaybookFile = "ansible/deployServer.yml"
 ApplicationPort = "80"
+HostFilePath="inventory/hosts"
 GithubAnsibleURL = "https://github.com/yoon2ix/cloudformation-ansible.git"
 VpvID = "vpc-0a93272040286fd79"
 SubnetID = "subnet-07f69f1a00576f7de"
@@ -20,7 +21,7 @@ t= Template()
 t.add_description("Effective DevOps in AWS: Deploy Template")
 
 # Deploy Server for Ansible
-AnsiblePullCmd = "/usr/bin/ansible-pull -U {} {}".format(GithubAnsibleURL, AnsiblePlaybookFile)
+AnsiblePullCmd = "/usr/bin/ansible-pull -U {} {} -i".format(GithubAnsibleURL, AnsiblePlaybookFile, HostFilePath)
 
 
 # AWS IAM Profile

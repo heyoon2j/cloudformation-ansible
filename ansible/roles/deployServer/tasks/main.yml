@@ -60,8 +60,7 @@
 
 
 # Install pip3
-- pip:
-    name: 
+- name: Install pip3
   sudo: yes
   shell: "{{ item }}"
   with_items:
