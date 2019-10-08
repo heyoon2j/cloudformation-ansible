@@ -5,20 +5,26 @@
 
 ## Install EPEL Repository
 # https://dl.fedoraproject.org/pub/epel/
-- name: Import EPEL GPG key
-  rpm_key:
-    state: present
-    key: https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-7
+#- name: Import EPEL GPG key
+#  rpm_key:
+#    state: present
+#    key: https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-7
 
 
 # Add EPEL Repository
-- name: Add EPEL Repository
-  yum_repository:
-    name: epel
-    description: epel yum repository
-    baseurl: https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
-    enabled: yes
-    gpgcheck: yes
+#- name: Add EPEL Repository
+#  yum_repository:
+#    name: epel
+#    description: epel yum repository
+#    baseurl: https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+#   enabled: yes
+#    gpgcheck: yes
+
+- name: Install EPEL Repository
+  yum:
+    name: https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+    state: installed
+
 
 
 ## Install Git
@@ -100,10 +106,18 @@
 ## Docker Install
 # Install Docker
 - name: Install Docker
+  yum:
+    name: ['yum-utils','device-mapper-persistent-data','lvm2','docker-ce','docker-ce-cli','containerd.io']
+    state: present
+
+
+- name: Install Docker-Compose
   sudo: yes
   shell: "{{ item }}"
   with_items:
-    - /usr/bin/amazon-linux-extras install -y docker
+#   - /usr/bin/amazon-linux-extras install -y docker
+    - /usr/bin/yum-config-manager https://download.docker.com/linux/centos/docker-ce.repo
+    - /usr/bin/yum-config-manager --enable docker-ce-nightly
     - /usr/bin/systemctl enable docker
     - /usr/bin/systemctl start docker
     - usermod -a -G docker ec2-user
