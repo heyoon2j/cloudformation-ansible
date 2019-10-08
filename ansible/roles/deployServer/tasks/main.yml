@@ -17,7 +17,7 @@
     name: epel
     description: epel yum repository
     baseurl: https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
-    enabled: no
+    enabled: yes
     gpgcheck: yes
 
 
@@ -36,7 +36,7 @@
     name: ius
     description: ius yum repository
     baseurl: https://centos7.iuscommunity.org/ius-release.rpm
-    enabled: no
+    enabled: yes
 
 
 # Install Python3.6
