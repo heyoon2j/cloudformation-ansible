@@ -1,7 +1,0 @@
-all:
-  hosts:
-    deployServer:
-     hosts:
-       localhost
-    vars:
-      ansible_connection: localhost
