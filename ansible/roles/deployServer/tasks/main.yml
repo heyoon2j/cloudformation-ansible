@@ -104,10 +104,24 @@
 
 
 ## Docker Install
-# Install Docker
+# Install Package
+- name: Install Package
+  yum:
+    name: ['yum-utils','device-mapper-persistent-data','lvm2']
+    state: present
+
+
+- name: Enable Docker Repository
+  sudo: yes
+  shell: "{{ item }}"
+  with_items:
+    - /usr/bin/yum-config-manager https://download.docker.com/linux/centos/docker-ce.repo
+    - /usr/bin/yum-config-manager --enable docker-ce-nightly
+
+
 - name: Install Docker
   yum:
-    name: ['yum-utils','device-mapper-persistent-data','lvm2','docker-ce','docker-ce-cli','containerd.io']
+    name: ['docker-ce','docker-ce-cli','containerd.io']
     state: present
 
 
@@ -115,9 +129,6 @@
   sudo: yes
   shell: "{{ item }}"
   with_items:
-#   - /usr/bin/amazon-linux-extras install -y docker
-    - /usr/bin/yum-config-manager https://download.docker.com/linux/centos/docker-ce.repo
-    - /usr/bin/yum-config-manager --enable docker-ce-nightly
     - /usr/bin/systemctl enable docker
     - /usr/bin/systemctl start docker
     - usermod -a -G docker ec2-user
