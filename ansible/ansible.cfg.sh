@@ -6,6 +6,7 @@ if [ -d $ansibleDefaultPath ]; then
 	echo "$ansibleDefaultPath Directory Exist"
 else
 	mkdir $ansibleDefaultPath
+	mkdir $ansibleDefaultPath/inventory
 fi
 
 cd $ansibleDefaultPath

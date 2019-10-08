@@ -166,6 +166,7 @@
                                 "\techo \"$ansibleDefaultPath Directory Exist\"",
                                 "else",
                                 "\tmkdir $ansibleDefaultPath",
+                                "\tmkdir $ansibleDefaultPath/inventory",
                                 "fi",
                                 "cd $ansibleDefaultPath",
                                 "if [ -e ansible.cfg ]; then",
@@ -182,7 +183,7 @@
                                 "become_user = root",
                                 "library = library",
                                 "EOF",
-                                "/usr/bin/ansible-pull -U https://github.com/yoon2ix/cloudformation-ansible.git ansible/deployServer.yml -i"
+                                "/usr/bin/ansible-pull -U https://github.com/yoon2ix/cloudformation-ansible.git ansible/deployServer.yml"
                             ]
                         ]
                     }

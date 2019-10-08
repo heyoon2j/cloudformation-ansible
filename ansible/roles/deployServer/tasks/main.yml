@@ -64,7 +64,7 @@
   sudo: yes
   shell: "{{ item }}"
   with_items:
-    - /usr/bin/python3.6 get-pip.py
+    - /usr/bin/python3.6 ~/get-pip.py
     - /usr/local/bin/pip3 install --upgrade pip
     - /usr/local/bin/pip3 install ansible
 
