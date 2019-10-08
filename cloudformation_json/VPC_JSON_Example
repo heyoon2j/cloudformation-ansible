@@ -53,7 +53,7 @@
         },
         "Pri2Subnet": {
             "Properties": {
-                "AvailabilityZone": "ap-northeast-2a",
+                "AvailabilityZone": "ap-northeast-2c",
                 "CidrBlock": "10.0.192.0/18",
                 "MapPublicIpOnLaunch": "false",
                 "Tags": [
@@ -135,7 +135,7 @@
         },
         "Pub2Subnet": {
             "Properties": {
-                "AvailabilityZone": "ap-northeast-2a",
+                "AvailabilityZone": "ap-northeast-2c",
                 "CidrBlock": "10.0.128.0/18",
                 "MapPublicIpOnLaunch": "true",
                 "Tags": [

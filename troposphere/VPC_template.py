@@ -77,10 +77,11 @@ pri1_subnet = t.add_resource(
 		]
 	)
 )
+
 pub2_subnet = t.add_resource(
 	Subnet(
 		'Pub2Subnet',
-		AvailabilityZone="ap-northeast-2a",
+		AvailabilityZone="ap-northeast-2c",
 		CidrBlock='10.0.128.0/18',
 		VpcId=Ref(VPC),
 		MapPublicIpOnLaunch="true",
@@ -92,7 +93,7 @@ pub2_subnet = t.add_resource(
 pri2_subnet = t.add_resource(
 	Subnet(
 		'Pri2Subnet',
-		AvailabilityZone="ap-northeast-2a",
+		AvailabilityZone="ap-northeast-2c",
 		CidrBlock='10.0.192.0/18',
 		VpcId=Ref(VPC),
 		MapPublicIpOnLaunch="false",

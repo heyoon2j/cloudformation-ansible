@@ -1,0 +1,15 @@
+{
+	"Stack" : {
+		"Type" : "AWS::CloudFormation::Stack",
+		"Properties" : {
+			"StackName" : "DeployServer",
+			"Parameters" : [
+				{
+					"ParameterKey" : "KeyPair",
+					"ParameterValue" : "CodingTestKey"
+				}
+			],
+			"Capabilities" : ["CAPABILITY_IAM"]
+		}
+	}
+}
