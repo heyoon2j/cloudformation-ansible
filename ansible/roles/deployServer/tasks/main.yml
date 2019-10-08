@@ -43,7 +43,6 @@
 - name: Install Python 3.6
   yum:
     name: ['python36u','python36u-libs','python36u-devel','python36u-pip']
-    enablerepo: ius
     state: present
 
 
