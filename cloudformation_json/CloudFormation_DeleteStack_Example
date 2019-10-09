@@ -2,7 +2,7 @@
 	"Stack" : {
 		"Type" : "AWS::CloudFormation::Stack",
 		"Properties" : {
-			"StackName": "Jenkins"
+			"StackName": "JenkinsServer"
 		}
 	}
 }

@@ -22,7 +22,7 @@ def main(json_file, template):
 	stack_name = json_data['Stack']['Properties']['StackName']
 
 	#if json_data['Stack']['Properties']['Capabilities']:
-        capabilities = json_data['Stack']['Properties']['Capabilities']
+	capabilities = json_data['Stack']['Properties']['Capabilities']
 
 	params = {
 		'StackName': stack_name,
