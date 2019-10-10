@@ -1,0 +1,201 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Mappings": {
+        "AWSInstanceType2Arch": {
+            "m1.small": {
+                "Arch": "PV64"
+            },
+            "t2.micro": {
+                "Arch": "HVM64"
+            }
+        },
+        "AWSRegionArch2AMI": {
+            "ap-northeast-1": {
+                "HVM64": "ami-cbf90ecb",
+                "PV64": "ami-27f90e27"
+            },
+            "ap-southeast-1": {
+                "HVM64": "ami-68d8e93a",
+                "PV64": "ami-acd9e8fe"
+            },
+            "ap-southeast-2": {
+                "HVM64": "ami-fd9cecc7",
+                "PV64": "ami-ff9cecc5"
+            },
+            "cn-north-1": {
+                "HVM64": "ami-f239abcb",
+                "PV64": "ami-fa39abc3"
+            },
+            "eu-central-1": {
+                "HVM64": "ami-a8221fb5",
+                "PV64": "ami-ac221fb1"
+            },
+            "eu-west-1": {
+                "HVM64": "ami-a10897d6",
+                "PV64": "ami-bf0897c8"
+            },
+            "sa-east-1": {
+                "HVM64": "ami-b52890a8",
+                "PV64": "ami-bb2890a6"
+            },
+            "us-east-1": {
+                "HVM64": "ami-1ecae776",
+                "PV64": "ami-1ccae774"
+            },
+            "us-west-1": {
+                "HVM64": "ami-d114f295",
+                "PV64": "ami-d514f291"
+            },
+            "us-west-2": {
+                "HVM64": "ami-e7527ed7",
+                "PV64": "ami-ff527ecf"
+            }
+        }
+    },
+    "Parameters": {
+        "LambdaMemorySize": {
+            "AllowedValues": [
+                128,
+                192,
+                256,
+                320,
+                384,
+                448,
+                512,
+                576,
+                640,
+                704,
+                768,
+                832,
+                896,
+                960,
+                1024,
+                1088,
+                1152,
+                1216,
+                1280,
+                1344,
+                1408,
+                1472,
+                1536,
+                1600,
+                1664,
+                1728,
+                1792,
+                1856,
+                1920,
+                1984,
+                2048,
+                2112,
+                2176,
+                2240,
+                2304,
+                2368,
+                2432,
+                2496,
+                2560,
+                2624,
+                2688,
+                2752,
+                2816,
+                2880,
+                2944,
+                3008
+            ],
+            "Default": "128",
+            "Description": "Amount of memory to allocate to the Lambda Function",
+            "Type": "Number"
+        },
+        "LambdaTimeout": {
+            "Default": "60",
+            "Description": "Timeout in seconds for the Lambda function",
+            "Type": "Number"
+        }
+    },
+    "Resources": {
+        "Function": {
+            "Properties": {
+                "Code": {
+                    "ZipFile": {
+                        "Fn::Join": [
+                            "",
+                            [
+                                "import boto3\n",
+                                "import json\n",
+                                "sns_client = boto3.client('sns')\n",
+                                "client_endpoint = 'jysz93@naver.com'\n",
+                                "topicArn = 'arn:aws:sns:ap-northeast-2:087197281921:TestResultAlarm'\n",
+                                "filter_policy = {\n",
+                                "\t'email': [client_endpoint]\n",
+                                "}\n",
+                                "\n",
+                                "delivery_policy = {\n",
+                                "\t'healthyRetryPolicy': {\n",
+                                "\t\t'numRetries': 10,\n",
+                                "\t\t'minDelayTarget': 10,\n",
+                                "\t\t'maxDelayTarget': 30,\n",
+                                "\t\t'numMinDelayRetries': 3,\n",
+                                "\t\t'numMaxDelayRetries': 7,\n",
+                                "\t\t'numNoDelayRetries': 0,\n",
+                                "\t\t'backoffFunction': 'linear'\n",
+                                "\t}\n",
+                                "}\n",
+                                "\n",
+                                "json_filter = json.dumps(filter_policy)\n",
+                                "json_delivery = json.dumps(delivery_policy)\n",
+                                "\n",
+                                "def lambda_handler(evnet, contxt):\n",
+                                "\tresponse = sns_client.subscribe(\n",
+                                "\t\tTopicArn=topicArn,\n",
+                                "\t\tProtocol='email',\n",
+                                "\t\tEndpoint=client_endpoint,\n",
+                                "\t\tAttributes={\n",
+                                "\t\t\t'FilterPolicy': json_filter,\n",
+                                "\t\t\t'DeliveryPolicy': json_delivery\n",
+                                "\t\t},\n",
+                                "\t\t#ReturnSubscriptionArn=True|False\n",
+                                "\t)\n",
+                                "\n",
+                                "\tprint(response)\n"
+                            ]
+                        ]
+                    }
+                },
+                "Description": "Send Subscription Email",
+                "FunctionName": "SubscriptionSNS",
+                "Handler": "lndex.handler",
+                "MemorySize": {
+                    "Ref": "LambdaMemorySize"
+                },
+                "Role": "arn:aws:iam::087197281921:role/SNSRoleForSNS",
+                "Runtime": "python3.7",
+                "Timeout": {
+                    "Ref": "LambdaTimeout"
+                }
+            },
+            "Type": "AWS::Lambda::Function"
+        },
+        "SecurityGroup": {
+            "Properties": {
+                "GroupDescription": "Allow SSH and TCP/80 access",
+                "GroupName": "LambdaSubscriptionSNS-SG",
+                "SecurityGroupIngress": [
+                    {
+                        "CidrIp": "0.0.0.0/0",
+                        "FromPort": "22",
+                        "IpProtocol": "tcp",
+                        "ToPort": "22"
+                    },
+                    {
+                        "CidrIp": "0.0.0.0/0",
+                        "FromPort": "80",
+                        "IpProtocol": "tcp",
+                        "ToPort": "80"
+                    }
+                ],
+                "VpcId": "vpc-0a93272040286fd79"
+            },
+            "Type": "AWS::EC2::SecurityGroup"
+        }
+    }
+}

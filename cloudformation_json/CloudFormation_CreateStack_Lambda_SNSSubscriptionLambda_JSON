@@ -1,0 +1,13 @@
+{
+	"Stack" : {
+		"Type" : "AWS::CloudFormation::Stack",
+		"Properties" : {
+			"StackName" : "SNSSubscriptionLambda",
+			"Parameters" : [
+				{"ParameterKey":"LambdaMemorySize","ParameterValue":"128"},
+				{"ParameterKey":"LambdaTimeout","ParameterValue":"60"}
+			],
+			"Capabilities" : ["CAPABILITY_NAMED_IAM"]
+		}
+	}
+}

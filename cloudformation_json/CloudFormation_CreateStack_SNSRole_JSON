@@ -1,0 +1,10 @@
+{
+	"Stack" : {
+		"Type" : "AWS::CloudFormation::Stack",
+		"Properties" : {
+			"StackName" : "LambdaRole",
+			"Parameters" : [],
+			"Capabilities" : ["CAPABILITY_NAMED_IAM"]
+		}
+	}
+}
