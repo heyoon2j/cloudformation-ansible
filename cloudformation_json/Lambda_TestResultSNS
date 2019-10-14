@@ -122,31 +122,36 @@
                             [
                                 "import boto3\n",
                                 "import json\n",
-                                "sns_client = boto3.client('sns')\n",
-                                "client_endpoint = 'jysz93@naver.com'\n",
-                                "topicArn = 'arn:aws:sns:ap-northeast-2:087197281921:TestResultAlarm'\n",
                                 "\n",
-                                "def lambda_handler(evnet, contxt):\n",
+                                "def lambda_handler(event, context):\n",
+                                "\tclient_endpoint = event['client_endpoint']\n",
+                                "\n",
+                                "\tmessage = event['message']\n",
+                                "\ttopicArn = 'arn:aws:sns:ap-northeast-2:087197281921:TestResultAlarm'\n",
+                                "\n",
+                                "\tmessage = json.dumps(message)\n",
+                                "\tfilter = '[\"'+client_endpoint+'\"]'\n",
+                                "\n",
+                                "\tsns_client = boto3.client('sns')\n",
                                 "\tresponse = sns_client.publish(\n",
                                 "\t\tTopicArn=topicArn,\n",
-                                "\t\tMessage='Good news everyone!',\n",
-                                "\t\tSubject='Coding Test ',\n",
+                                "\t\tMessage=message,\n",
+                                "\t\tSubject='Coding Test',\n",
                                 "\t\tMessageAttributes={\n",
                                 "\t\t\t'email' :  {\n",
                                 "\t\t\t\t'DataType' : 'String.Array',\n",
-                                "\t\t\t\t'StringValue' : '[\"jysz93@naver.com\", \"jwsz93@naver.com\"]'\n",
+                                "\t\t\t\t'StringValue' : filter\n",
                                 "\t\t\t}\n",
                                 "\t\t}\n",
                                 "\t)\n",
-                                "\n",
-                                "\tprint(response)\n"
+                                "\tprint(response)"
                             ]
                         ]
                     }
                 },
                 "Description": "Send Test Result Email",
                 "FunctionName": "TestResultSNS",
-                "Handler": "lndex.handler",
+                "Handler": "index.lambda_handler",
                 "MemorySize": {
                     "Ref": "LambdaMemorySize"
                 },

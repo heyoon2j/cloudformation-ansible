@@ -78,24 +78,29 @@ t.add_mapping("AWSRegionArch2AMI",
 code = [
 "import boto3\n",
 "import json\n",
-"sns_client = boto3.client('sns')\n",
-"client_endpoint = 'jysz93@naver.com'\n",
-"topicArn = 'arn:aws:sns:ap-northeast-2:087197281921:TestResultAlarm'\n",
 "\n",
-"def lambda_handler(evnet, contxt):\n",
+"def lambda_handler(event, context):\n",
+"	client_endpoint = event['client_endpoint']\n",
+"\n",
+"	message = event['message']\n",
+"	topicArn = 'arn:aws:sns:ap-northeast-2:087197281921:TestResultAlarm'\n",
+"\n",
+"	message = json.dumps(message)\n",
+"	filter = '[\"'+client_endpoint+'\"]'\n",
+"\n",
+"	sns_client = boto3.client('sns')\n",
 "	response = sns_client.publish(\n",
 "		TopicArn=topicArn,\n",
-"		Message='Good news everyone!',\n",
-"		Subject='Coding Test ',\n",
+"		Message=message,\n",
+"		Subject='Coding Test',\n",
 "		MessageAttributes={\n",
 "			'email' :  {\n",
 "				'DataType' : 'String.Array',\n",
-"				'StringValue' : '[\"jysz93@naver.com\", \"jwsz93@naver.com\"]'\n",
+"				'StringValue' : filter\n",
 "			}\n",
 "		}\n",
 "	)\n",
-"\n",
-"	print(response)\n"
+"	print(response)"
 ]
 
 security_param=t.add_resource(
@@ -132,7 +137,7 @@ Function = t.add_resource(
 		Code=Code(
 			ZipFile=Join("", code)
 		),
-		Handler="lndex.handler",
+		Handler="index.lambda_handler",
 		MemorySize=Ref(MemorySize),
 		Timeout=Ref(Timeout),
 		#VpcConfig=VpcConfig(
