@@ -1,0 +1,154 @@
+{
+    "Description": "Effective DevOps in AWS: ECS Cluster",
+    "Parameters": {
+        "KeyPair": {
+            "ConstraintDescription": "must be the name of an existing EC2 KeyPair.",
+            "Description": "Name of an existing EC2 KeyPair to SSH",
+            "Type": "AWS::EC2::KeyPair::KeyName"
+        },
+        "PublicSubnet": {
+            "ConstraintDescription": "PublicSubnet",
+            "Description": "PublicSubnet",
+            "Type": "List<AWS::EC2::Subnet::Id>"
+        },
+        "VpcId": {
+            "Description": "VPC",
+            "Type": "AWS::EC2::VPC::Id"
+        }
+    },
+    "Resources": {
+        "ContainerInstances": {
+            "Properties": {
+                "AssociatePublicIpAddress": "true",
+                "IamInstanceProfile": {
+                    "Ref": "EC2InstanceProfile"
+                },
+                "ImageId": "ami-093714bddebb6d7e1",
+                "InstanceType": "t2.micro",
+                "KeyName": {
+                    "Ref": "KeyPair"
+                },
+                "SecurityGroups": [
+                    {
+                        "Ref": "SecurityGroup"
+                    }
+                ],
+                "UserData": {
+                    "Fn::Base64": {
+                        "Fn::Join": [
+                            "",
+                            [
+                                "#!bin/bash -xe\n",
+                                "ehco ECS_CLUSTER=",
+                                {
+                                    "Ref": "ECSCluster"
+                                },
+                                " >> /etc/ecs/ecs.config\n",
+                                "yum install -y aws-cfn-bootstrap\n",
+                                "/opt/aws/bin/cfn-siganl -e $? ",
+                                "\t--stack ",
+                                {
+                                    "Ref": "AWS::StackName"
+                                },
+                                "\t--resource ECSAutoScalingGroup",
+                                "\t--region ",
+                                {
+                                    "Ref": "AWS::Region"
+                                },
+                                "\n"
+                            ]
+                        ]
+                    }
+                }
+            },
+            "Type": "AWS::AutoScaling::LaunchConfiguration"
+        },
+        "EC2InstanceProfile": {
+            "Properties": {
+                "Roles": [
+                    {
+                        "Ref": "EcsClusterRole"
+                    }
+                ]
+            },
+            "Type": "AWS::IAM::InstanceProfile"
+        },
+        "ECSAutoScalingGroup": {
+            "Properties": {
+                "AvailabilityZones": [
+                    "ap-northeast-2a",
+                    "ap-northeast-2c"
+                ],
+                "DesiredCapacity": "1",
+                "LaunchConfigurationName": {
+                    "Ref": "ContainerInstances"
+                },
+                "MaxSize": "5",
+                "MinSize": "1",
+                "VPCZoneIdentifier": {
+                    "Ref": "PublicSubnet"
+                }
+            },
+            "Type": "AWS::AutoScaling::AutoScalingGroup"
+        },
+        "ECSCluster": {
+            "Properties": {
+                "ClusterName": "CodingTestCluster"
+            },
+            "Type": "AWS::ECS::Cluster"
+        },
+        "EcsClusterRole": {
+            "Properties": {
+                "AssumeRolePolicyDocument": {
+                    "Statement": [
+                        {
+                            "Action": "sts:AssumeRole",
+                            "Effect": "Allow",
+                            "Principal": {
+                                "Service": "ec2.amazonaws.com"
+                            }
+                        }
+                    ],
+                    "Version": "2012-10-17"
+                },
+                "ManagedPolicyArns": [
+                    "arn:aws:iam::aws:policy/service-role/AmazonEC2RoleforSSM",
+                    "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly",
+                    "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role",
+                    "arn:aws:iam::aws:policy/CloudWatchFullAccess"
+                ]
+            },
+            "Type": "AWS::IAM::Role"
+        },
+        "SecurityGroup": {
+            "Properties": {
+                "GroupDescription": "Allow SSH and private network access",
+                "GroupName": "CodingTestCluster-SG",
+                "SecurityGroupIngress": [
+                    {
+                        "CidrIp": "10.0.64.0/18",
+                        "FromPort": 0,
+                        "IpProtocol": "tcp",
+                        "ToPort": 65535
+                    },
+                    {
+                        "CidrIp": "10.0.192.0/18",
+                        "FromPort": 0,
+                        "IpProtocol": "tcp",
+                        "ToPort": 65535
+                    },
+                    {
+                        "CidrIp": "52.78.190.8/32",
+                        "FromPort": "22",
+                        "IpProtocol": "tcp",
+                        "ToPort": "22"
+                    }
+                ],
+                "VpcId": {
+                    "Ref": "VpcId"
+                }
+            },
+            "Type": "AWS::EC2::SecurityGroup"
+        }
+    }
+}

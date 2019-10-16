@@ -1,0 +1,14 @@
+---
+# tasks file for frontServer
+# Install Httpd(Apache)
+
+- name: Install Httpd
+  yum:
+    name: ['httpd']
+    state: installed
+
+- name: Start httpd
+  service:
+    name: httpd
+    enabled: yes
+    state: started

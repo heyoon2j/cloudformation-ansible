@@ -1,0 +1,199 @@
+{
+    "Description": "Effective DevOps in AWS: Deploy Template",
+    "Mappings": {
+        "RegionMap": {
+            "ap-northeast-1": {
+                "AMI": "ami-dcfa4edd"
+            },
+            "ap-northeast-2": {
+                "AMI": "ami-0d097db2fb6e0f05e"
+            },
+            "ap-southeast-1": {
+                "AMI": "ami-74dda626"
+            },
+            "eu-west-1": {
+                "AMI": "ami-24506250"
+            },
+            "sa-east-1": {
+                "AMI": "ami-3e3be423"
+            },
+            "us-west-1": {
+                "AMI": "ami-951945d0"
+            },
+            "us-west-2": {
+                "AMI": "ami-16fd7026"
+            }
+        }
+    },
+    "Outputs": {
+        "InstanceId": {
+            "Description": "InstanceId of the newly created EC2 instance",
+            "Value": {
+                "Ref": "instance"
+            }
+        },
+        "PublicIp": {
+            "Description": "Public IP address of the created EC2 instance",
+            "Value": {
+                "Fn::GetAtt": [
+                    "instance",
+                    "PublicIp"
+                ]
+            }
+        },
+        "WebUrl": {
+            "Description": "Appliaction endpoint",
+            "Value": {
+                "Fn::Join": [
+                    "",
+                    [
+                        "http://",
+                        {
+                            "Fn::GetAtt": [
+                                "instance",
+                                "PublicDnsName"
+                            ]
+                        },
+                        ":",
+                        "80"
+                    ]
+                ]
+            }
+        }
+    },
+    "Parameters": {
+        "KeyPair": {
+            "ConstraintDescription": "must be the name of an existing EC2 KeyPair.",
+            "Description": "Name of an existing EC2 KeyPair to SSH",
+            "Type": "AWS::EC2::KeyPair::KeyName"
+        }
+    },
+    "Resources": {
+        "CFNInstanceProfile": {
+            "Properties": {
+                "Roles": [
+                    {
+                        "Ref": "CFNRole"
+                    }
+                ]
+            },
+            "Type": "AWS::IAM::InstanceProfile"
+        },
+        "CFNRole": {
+            "Properties": {
+                "AssumeRolePolicyDocument": {
+                    "Statement": [
+                        {
+                            "Action": [
+                                "sts:AssumeRole"
+                            ],
+                            "Effect": "Allow",
+                            "Principal": {
+                                "Service": [
+                                    "ec2.amazonaws.com"
+                                ]
+                            }
+                        }
+                    ]
+                }
+            },
+            "Type": "AWS::IAM::Role"
+        },
+        "SecurityGroup": {
+            "Properties": {
+                "GroupDescription": "Allow SSH and TCP/80 access",
+                "GroupName": "DockerServer-SG",
+                "SecurityGroupIngress": [
+                    {
+                        "CidrIp": "0.0.0.0/0",
+                        "FromPort": "22",
+                        "IpProtocol": "tcp",
+                        "ToPort": "22"
+                    },
+                    {
+                        "CidrIp": "0.0.0.0/0",
+                        "FromPort": "80",
+                        "IpProtocol": "tcp",
+                        "ToPort": "80"
+                    },
+                    {
+                        "CidrIp": "0.0.0.0/0",
+                        "FromPort": "80",
+                        "IpProtocol": "tcp",
+                        "ToPort": "8000"
+                    }
+                ],
+                "VpcId": "vpc-0a93272040286fd79"
+            },
+            "Type": "AWS::EC2::SecurityGroup"
+        },
+        "instance": {
+            "Properties": {
+                "IamInstanceProfile": {
+                    "Ref": "CFNInstanceProfile"
+                },
+                "ImageId": {
+                    "Fn::FindInMap": [
+                        "RegionMap",
+                        {
+                            "Ref": "AWS::Region"
+                        },
+                        "AMI"
+                    ]
+                },
+                "InstanceType": "t2.micro",
+                "KeyName": {
+                    "Ref": "KeyPair"
+                },
+                "SecurityGroupIds": [
+                    {
+                        "Ref": "SecurityGroup"
+                    }
+                ],
+                "SubnetId": "subnet-07f69f1a00576f7de",
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "dockerServer"
+                    }
+                ],
+                "UserData": {
+                    "Fn::Base64": {
+                        "Fn::Join": [
+                            "\n",
+                            [
+                                "#!/bin/bash",
+                                "sudo yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm",
+                                "yum install --enablerepo=epel -y git",
+                                "yum install -y python-pip",
+                                "pip install ansible",
+                                "ansibleDefaultPath=/etc/ansible",
+                                "if [ -d $ansibleDefaultPath ]; then",
+                                "\techo \"$ansibleDefaultPath Directory Exist\"",
+                                "else",
+                                "\tmkdir $ansibleDefaultPath",
+                                "\tmkdir $ansibleDefaultPath/inventory",
+                                "fi",
+                                "cd $ansibleDefaultPath",
+                                "if [ -e ansible.cfg ]; then",
+                                "       echo \"ansible.cfg Exist\"",
+                                "else",
+                                "       touch ansible.cfg",
+                                "fi",
+                                "cat << EOF > /etc/ansible/ansible.cfg",
+                                "[defaults]",
+                                "remote_user = ec2-user",
+                                "become = true",
+                                "become_method = sudo",
+                                "become_user = root",
+                                "EOF",
+                                "/usr/bin/ansible-pull -U https://github.com/yoon2ix/cloudformation-ansible.git ansible/deployServer.yml"
+                            ]
+                        ]
+                    }
+                }
+            },
+            "Type": "AWS::EC2::Instance"
+        }
+    }
+}

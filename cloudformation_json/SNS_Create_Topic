@@ -1,0 +1,12 @@
+{
+    "Description": "AWS CloudFormation Sample Template: This template ",
+    "Resources": {
+        "SNSTopic": {
+            "Properties": {
+                "DisplayName": "TestResultAlarm",
+                "TopicName": "TestResultAlarm"
+            },
+            "Type": "AWS::SNS::Topic"
+        }
+    }
+}

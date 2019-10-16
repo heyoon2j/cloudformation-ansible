@@ -1,7 +1,7 @@
 from troposphere.constants import NUMBER
 from troposphere import FindInMap, GetAtt, Join, Output
 from troposphere import Parameter, Ref, Template
-from troposphere.awslambda import Function, Code, MEMORY_VALUES
+from troposphere.awslambda import Function, Code, MEMORY_VALUES, VPCConfig
 from troposphere.cloudformation import CustomResource
 from troposphere.ec2 import Instance
 from troposphere.ec2 import SecurityGroup, SecurityGroupRule
@@ -9,7 +9,8 @@ from troposphere.iam import Role, Policy
 
 LambdaRole="arn:aws:iam::087197281921:role/SNSRoleForSNS"
 VpcID = "vpc-0a93272040286fd79"
-SubnetId="subnet-07f69f1a00576f7de"
+Pri_SubnetId1="subnet-090ecdfd567016a8f"
+Pri_SubnetId2="subnet-029854ef7d7aa04d1"
 
 t = Template()
 
@@ -79,6 +80,7 @@ code = [
 "import boto3\n",
 "import json\n",
 "\n",
+<<<<<<< HEAD
 "def lambda_handler(evnet, contxt):\n",
 "\n",
 "	client_endpoint = event['client_endpoint']\n",
@@ -110,8 +112,41 @@ code = [
 "		},\n",
 "		#ReturnSubscriptionArn=True|False\n",
 "	)\n",
+=======
+"def lambda_handler(event, context):\n",
 "\n",
-"	print(response)\n"
+"       client_endpoint = event['client_endpoint']\n",
+"       topicArn = 'arn:aws:sns:ap-northeast-2:087197281921:TestResultAlarm'\n",
+"       filter_policy = {\n",
+"              'email': [client_endpoint]\n",
+"       }\n",
+"\n",
+"       delivery_policy = {\n",
+"               'healthyRetryPolicy': {\n",
+"                       'numRetries': 10,\n",
+"                       'minDelayTarget': 10,\n",
+"                       'maxDelayTarget': 30,\n",
+"                       'numMinDelayRetries': 3,\n",
+"                       'numMaxDelayRetries': 7,\n",
+"                       'numNoDelayRetries': 0,\n",
+"                       'backoffFunction': 'linear'\n",
+"               }\n",
+"       }\n",
+>>>>>>> d2dd4565a4585cdf5b3b8f04875aeb215b341adc
+"\n",
+"       sns_client = boto3.client('sns')\n",
+"       response = sns_client.subscribe(\n",
+"               TopicArn=topicArn,\n",
+"               Protocol='email',\n",
+"               Endpoint=client_endpoint,\n",
+"               Attributes={\n",
+"                       'FilterPolicy': json.dumps(filter_policy),\n",
+"                       'DeliveryPolicy': json.dumps(delivery_policy)\n",
+"               },\n",
+"               #ReturnSubscriptionArn=True|False\n",
+"       )\n",
+"\n",
+"       print(response)\n"
 ]
 
 security_param=t.add_resource(
@@ -126,13 +161,13 @@ security_param=t.add_resource(
 				FromPort="22",
 				ToPort="22",
 				CidrIp="0.0.0.0/0",
-			),
-			SecurityGroupRule(
-				IpProtocol="tcp",
-				FromPort="80",
-				ToPort="80",
-				CidrIp="0.0.0.0/0",
-			),
+			),	
+			#SecurityGroupRule(
+			#	IpProtocol="tcp",
+			#	FromPort="80",
+			#	ToPort="80",
+			#	CidrIp="0.0.0.0/0",
+			#),		
 		],
 		
 	)
@@ -148,12 +183,12 @@ Function = t.add_resource(
 		Code=Code(
 			ZipFile=Join("", code)
 		),
-		Handler="lndex.handler",
+		Handler="index.lambda_handler",
 		MemorySize=Ref(MemorySize),
-		Timeout=Ref(Timeout),
-		#VpcConfig=VpcConfig(
-		#	SecurityGroupIds=[Ref(security_param)],
-		#	SubnetIds=[SubnetId],
+		Timeout=Ref(Timeout),		
+		#VpcConfig=VPCConfig(
+		#	SecurityGroupIds=Ref(security_param),
+		#	SubnetIds=[Pri_SubnetId1,Pri_SubnetId2],
 		#)
 	)
 )

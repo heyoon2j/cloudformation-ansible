@@ -1,0 +1,23 @@
+{
+	"Stack" : {
+		"Type" : "AWS::CloudFormation::Stack",
+		"Properties" : {
+			"StackName" : "ECSConfig",
+			"Parameters" : [
+				{
+					"ParameterKey" : "KeyPair",
+					"ParameterValue" : "CodingTestKey"
+				},
+				{
+					"ParameterKey" : "VpcId",
+					"ParameterValue" : "vpc-0a93272040286fd79"
+				},
+				{
+					"ParameterKey" : "PublicSubnet",
+					"ParameterValue" : "subnet-090ecdfd567016a8f,subnet-029854ef7d7aa04d1"
+				}				
+			],
+			"Capabilities" : ["CAPABILITY_IAM"]
+		}
+	}
+}
