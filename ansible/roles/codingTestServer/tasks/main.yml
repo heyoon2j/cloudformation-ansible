@@ -76,6 +76,8 @@
 - name: Install MySQL Client
   sudo: yes
   shell: "{{ item }}"
+  args:
+    executable: /bin/bash
   with_items:
     - . /usr/local/env/codingTest/bin/activate && pip3 install mysqlclient
 
@@ -98,6 +100,8 @@
 - name: Set WSGI
   sudo: yes
   shell: "{{ item }}"
+  args:
+    executable: /bin/bash
   with_items:
     - . ~/code/setWSGIModule.sh
 
@@ -121,6 +125,8 @@
 - name: Set Project
   sudo: yes
   shell: "{{ item }}"
+  args:
+    executable: /bin/bash
   with_items:
     - . ~/code/setProject.sh
 
