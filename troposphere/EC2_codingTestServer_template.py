@@ -131,7 +131,7 @@ ec2_instance=t.add_resource(
 		UserData=ud,
 		IamInstanceProfile=Ref(cfninstanceprofile),
 		Tags=[
-			{ "Key" : "Name", "Value" : "deployServer"}
+			{ "Key" : "Name", "Value" : "codingTestServer"}
 		],
 	)
 )

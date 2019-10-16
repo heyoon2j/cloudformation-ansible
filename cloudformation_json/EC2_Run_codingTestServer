@@ -148,7 +148,7 @@
                 "Tags": [
                     {
                         "Key": "Name",
-                        "Value": "deployServer"
+                        "Value": "codingTestServer"
                     }
                 ],
                 "UserData": {
