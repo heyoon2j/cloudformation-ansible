@@ -9,7 +9,7 @@
 					"ParameterValue" : "CodingTestKey"
 				}
 			],
-			"Capabilities" : ["CAPABILITY_IAM"]
+			"Capabilities" : ["CAPABILITY_NAMED_IAM"]
 		}
 	}
 }
