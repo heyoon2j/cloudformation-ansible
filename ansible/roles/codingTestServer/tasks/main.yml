@@ -43,15 +43,15 @@
 
 
 
-- name: Install DB Client RPM
-  get_url:
-    url: http://dev.mysql.com/get/mysql57-community-release-el7-7.noarch.rpm
-    dest: ~/code/mysql57-community-release-el7-7.noarch.rpm
+#- name: Install DB Client RPM
+#  get_url:
+#    url: http://dev.mysql.com/get/mysql57-community-release-el7-7.noarch.rpm
+#    dest: ~/code/mysql57-community-release-el7-7.noarch.rpm
 
 
 - name: Install DB RPM
   yum:
-    name: ['mysql57-community-release-el7-7.noarch.rpm']
+    name: ['http://dev.mysql.com/get/mysql57-community-release-el7-7.noarch.rpm']
     state: installed
 
 - name: Enable DB RPM
