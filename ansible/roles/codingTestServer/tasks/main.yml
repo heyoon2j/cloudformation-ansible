@@ -93,7 +93,7 @@
   sudo: yes
   shell: "{{ item }}"
   with_items:
-    - sh ~/setWSGIModule.sh
+    - sh ~/code/setWSGIModule.sh
 
 - name: Make Project Directory
   file:
