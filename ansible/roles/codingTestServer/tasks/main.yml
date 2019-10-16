@@ -133,3 +133,12 @@
     name: httpd
     enabled: yes
     state: started
+
+- name: Config JAVA Environment Variable
+  sudo: yes
+  shell: "{{ item }}"
+  with_items:
+    - echo "export PublicIP=\$(curl ipv4.icanhazip.com)" >> /etc/profile
+    - source /etc/profile
+  args:
+    executable: /bin/bash
