@@ -1,8 +1,8 @@
 
 """Generating CloudFormation template."""
 from troposphere import(Base64, ec2, GetAtt, Join, Output, Parameter, Ref, Template, FindInMap)
-from troposphere.iam import (InstanceProfile, PolicyType as IAMPolicy, Role)
-from awacs.aws import (Action, Allow, Policy, PolicyDocument, Principal, Statement)
+from troposphere.iam import (InstanceProfile, PolicyType as IAMPolicy, Role, Policy)
+from awacs.aws import (Action, Allow, PolicyDocument, Principal, Statement)
 from awacs.sts import AssumeRole
 
 
@@ -31,7 +31,34 @@ cfnrole = t.add_resource(Role(
 				Principal=Principal("Service", ["ec2.amazonaws.com"])
 			)
 		]
-	)
+	),
+	RoleName="codingTestRole",
+	Policies=[
+		Policy(
+			PolicyName="S3PolicyForCodingTestRole",
+			PolicyDocument=PolicyDocument(
+				Statement=[
+					Statement(
+						Effect=Allow,
+						Action=[Action("s3","*")],
+						Resource=["*"]
+					),
+				],
+			)
+		),
+		Policy(
+			PolicyName="RDSPolicyForCodingTestRole",
+			PolicyDocument=PolicyDocument(
+				Statement=[
+					Statement(
+						Effect=Allow,
+						Action=[Action("rds","*")],
+						Resource=["*"]
+					),
+				],
+			)
+		)
+	]
 ))
 
 cfninstanceprofile = t.add_resource(InstanceProfile(
@@ -62,6 +89,12 @@ security_param=t.add_resource(
 				IpProtocol="tcp",
 				FromPort="22",
 				ToPort="22",
+				CidrIp="0.0.0.0/0",
+			),
+			ec2.SecurityGroupRule(
+				IpProtocol="tcp",
+				FromPort="3306",
+				ToPort="3306",
 				CidrIp="0.0.0.0/0",
 			),
 			ec2.SecurityGroupRule(
