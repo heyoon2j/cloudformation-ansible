@@ -153,6 +153,6 @@
     - echo 'export PATH=$PATH:$JAVA_HOME/bin' >> /etc/bashrc
     - echo "export PublicIP=\$(curl ipv4.icanhazip.com)" >> /etc/bashrc
     - echo "export publicip=zxcv" >> /etc/bashrc
-    - source /etc/bashrc
+    - . /etc/bashrc
   args:
     executable: /bin/bash
