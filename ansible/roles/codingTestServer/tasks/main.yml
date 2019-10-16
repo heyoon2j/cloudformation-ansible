@@ -9,7 +9,7 @@
 
 - name: Install Python36
   yum:
-    name:['python36u','python36u-libs', 'python36u-devel','python36u-pip']
+    name: ['python36u','python36u-libs', 'python36u-devel','python36u-pip']
     state: installed
 
 
