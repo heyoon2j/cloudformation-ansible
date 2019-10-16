@@ -103,7 +103,7 @@
   args:
     executable: /bin/bash
   with_items:
-    - . ~/code/setWSGIModule.sh
+    - . /root/code/setWSGIModule.sh
 
 
 - name: Make Project Directory
@@ -128,7 +128,7 @@
   args:
     executable: /bin/bash
   with_items:
-    - . ~/code/setProject.sh
+    - . /root/code/setProject.sh
 
 
 - name: Start httpd
