@@ -1,2 +1,99 @@
 ---
 # tasks file for codingTestServer
+# Install Django(Apache)
+- name: Install EPEL
+  yum:
+    name: ['epel-release','https://centos7.iuscommunity.org/ius-release.rpm']
+    state: installed
+
+
+- name: Make Directory
+  file:
+    path: ~/code/
+    state: directory
+
+
+- name: Wget pip
+  get_url:
+    url: https://bootstrap.pypa.io/get-pip.py
+    dest: ~/code/get-pip.py
+
+
+- name: Install pip3 & virtualenv
+  sudo: yes
+  shell: "{{ item }}"
+  with_items:
+    - python3.6 ~/code/get-pip.py
+    - pip3 install virtualenv
+
+- name: Make Directory for virtualenv
+  file:
+    path: /usr/local/env
+    state: directory
+
+
+- name: Activate VirtualENV
+  sudo: yes
+  shell: "{{ item }}"
+  with_items:
+    - virtualenv -p python3 /usr/local/env/codingTest
+    - . /usr/local/env/codingTest/bin/activate && pip3 install --upgrade pip
+    - . /usr/local/env/codingTest/bin/activate && pip3 install django
+    - pip3 install --upgrade pip
+
+
+
+- name: Install DB Client RPM
+  get_url:
+    url: http://dev.mysql.com/get/mysql57-community-release-el7-7.noarch.rpm
+    dest: ~/code/mysql57-community-release-el7-7.noarch.rpm
+
+
+- name: Install DB RPM
+  yum:
+    name: ['mysql57-community-release-el7-7.noarch.rpm']
+    state: installed
+
+- name: Enable DB RPM
+  sudo: yes
+  shell: "{{ item }}"
+  with_items:
+    - yum-config-manager --enable mysql57-community
+
+
+- name: Install MySQL Driver
+  yum:
+    name: ['mysql-community-devel.x86_64','python-devel','gcc','mysql-connector-python.x86_64']
+    state: installed
+
+
+- name: Install MySQL Client
+  sudo: yes
+  shell: "{{ item }}"
+  with_items:
+    - . /usr/local/env/codingTest/bin/activate && pip3 install mysqlclient
+
+
+- name: Install WSGI Module
+  yum:
+    name: ['httpd-devel']
+  sudo: yes
+  shell: "{{ item }}"
+  with_items:
+    - pip3 install mod_wsgi
+
+
+- name: Copy Project
+  file:
+    path: /usr/local/django
+    state: directory
+  copy:
+    src: codingTest
+    dest: /usr/local/djnago/codingTest
+
+
+- name: Start httpd
+  service:
+    name: httpd
+    enabled: yes
+    state: started
