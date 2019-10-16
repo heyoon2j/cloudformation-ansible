@@ -1,7 +1,7 @@
 from troposphere.constants import NUMBER
 from troposphere import FindInMap, GetAtt, Join, Output
 from troposphere import Parameter, Ref, Template
-from troposphere.awslambda import Function, Code, MEMORY_VALUES
+from troposphere.awslambda import Function, Code, MEMORY_VALUES, VPCConfig
 from troposphere.cloudformation import CustomResource
 from troposphere.ec2 import Instance
 from troposphere.ec2 import SecurityGroup, SecurityGroupRule
@@ -9,7 +9,8 @@ from troposphere.iam import Role, Policy
 
 LambdaRole="arn:aws:iam::087197281921:role/SNSRoleForSNS"
 VpcID = "vpc-0a93272040286fd79"
-SubnetId="subnet-07f69f1a00576f7de"
+Pri_SubnetId1="subnet-090ecdfd567016a8f"
+Pri_SubnetId2="subnet-029854ef7d7aa04d1"
 
 t = Template()
 
@@ -126,13 +127,13 @@ security_param=t.add_resource(
 				FromPort="22",
 				ToPort="22",
 				CidrIp="0.0.0.0/0",
-			),
-			SecurityGroupRule(
-				IpProtocol="tcp",
-				FromPort="80",
-				ToPort="80",
-				CidrIp="0.0.0.0/0",
-			),
+			),	
+			#SecurityGroupRule(
+			#	IpProtocol="tcp",
+			#	FromPort="80",
+			#	ToPort="80",
+			#	CidrIp="0.0.0.0/0",
+			#),		
 		],
 		
 	)
@@ -150,10 +151,10 @@ Function = t.add_resource(
 		),
 		Handler="index.lambda_handler",
 		MemorySize=Ref(MemorySize),
-		Timeout=Ref(Timeout),
-		#VpcConfig=VpcConfig(
-		#	SecurityGroupIds=[Ref(security_param)],
-		#	SubnetIds=[SubnetId],
+		Timeout=Ref(Timeout),		
+		#VpcConfig=VPCConfig(
+		#	SecurityGroupIds=Ref(security_param),
+		#	SubnetIds=[Pri_SubnetId1,Pri_SubnetId2],
 		#)
 	)
 )
