@@ -124,12 +124,9 @@
 
 - name: Set Project
   sudo: yes
-  shell: "{{ item }}"
+  shell: . /root/code/setProject.sh 
   args:
     executable: /bin/bash
-  with_items:
-    - . /root/code/setProject.sh
-
 
 - name: Start httpd
   service:
