@@ -16,7 +16,8 @@ log = logging.getLogger('deploy.cf.create_or_update')  # pylint: disable=C0103
 def main(json_file, template):
 	'Update or create stack'
 
-	json_data = _parse_json(json_file)
+	json_data = json_file
+	#_parse_json(json_file)
 	template_data = _parse_template(template)
 
 	stack_name = json_data['Stack']['Properties']['StackName']
