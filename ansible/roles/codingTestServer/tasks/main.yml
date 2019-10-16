@@ -103,7 +103,7 @@
 - name: Copy Project
   copy:
     src: codingTest
-    dest: /usr/local/djnago/codingTest
+    dest: /usr/local/django/codingTest
 
 
 - name: Start httpd
