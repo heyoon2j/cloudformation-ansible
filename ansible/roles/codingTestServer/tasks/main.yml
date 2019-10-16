@@ -84,6 +84,16 @@
   with_items:
     - pip3 install mod_wsgi
 
+- name: Copy WSGI Setting Script
+  copy:
+    src: setWSGIModule.sh
+    dest: ~/code/setWSGIModule.sh
+
+- name: Set WSGI
+  sudo: yes
+  shell: "{{ item }}"
+  with_items:
+    - sh ~/setWSGIModule.sh
 
 - name: Make Project Directory
   file:
