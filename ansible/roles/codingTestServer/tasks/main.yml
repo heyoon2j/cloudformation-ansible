@@ -3,7 +3,13 @@
 # Install Django(Apache)
 - name: Install EPEL
   yum:
-    name: ['epel-release','https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm','https://centos7.iuscommunity.org/ius-release.rpm','python36u','python36u-libs', 'python36u-devel','python36u-pip']
+    name: ['epel-release','https://centos7.iuscommunity.org/ius-release.rpm']
+    state: installed
+
+
+- name: Install Python36
+  yum:
+    name:['python36u','python36u-libs', 'python36u-devel','python36u-pip']
     state: installed
 
 
