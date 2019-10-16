@@ -6,16 +6,15 @@ from awacs.aws import (Action, Allow, Policy, PolicyDocument, Principal, Stateme
 from awacs.sts import AssumeRole
 
 
-AnsiblePlaybookFile = "ansible/deployServer.yml"
-ApplicationPort = "80"
+AnsiblePlaybookFile = "ansible/codingTestServer.yml"
+ApplicationPort = "8000"
 GithubAnsibleURL = "https://github.com/yoon2ix/cloudformation-ansible.git"
 VpcID = "vpc-0a93272040286fd79"
 SubnetID = "subnet-07f69f1a00576f7de"
 
-
 t= Template()
 
-t.add_description("Effective DevOps in AWS: Deploy Template")
+t.add_description("Effective DevOps in AWS: CodingTest Template")
 
 # Deploy Server for Ansible
 AnsiblePullCmd = "/usr/bin/ansible-pull -U {} {} -i localhost".format(GithubAnsibleURL, AnsiblePlaybookFile)
@@ -56,7 +55,7 @@ security_param=t.add_resource(
 	ec2.SecurityGroup(
 		"SecurityGroup",
 		GroupDescription="Allow SSH and TCP/{} access".format(ApplicationPort),
-		GroupName="DeployServer-SG",
+		GroupName="CodingTest-SG",
 		VpcId=VpcID,
 		SecurityGroupIngress=[
 			ec2.SecurityGroupRule(
@@ -67,8 +66,8 @@ security_param=t.add_resource(
 			),
 			ec2.SecurityGroupRule(
 				IpProtocol="tcp",
-				FromPort="80",
-				ToPort="80",
+				FromPort=ApplicationPort,
+				ToPort=ApplicationPort,
 				CidrIp="0.0.0.0/0",
 			),
 		],
@@ -159,6 +158,6 @@ t.add_output([
 	),
 ])
 
-print t.to_json()
+print(t.to_json())
 
 

@@ -55,7 +55,7 @@ security_param=t.add_resource(
 	ec2.SecurityGroup(
 		"SecurityGroup",
 		GroupDescription="Allow SSH and TCP/{} access".format(ApplicationPort),
-		GroupName="DeployServer-SG",
+		GroupName="FrontServer-SG",
 		VpcId=VpcID,
 		SecurityGroupIngress=[
 			ec2.SecurityGroupRule(
@@ -157,6 +157,6 @@ t.add_output([
 	),
 ])
 
-print t.to_json()
+print(t.to_json())
 
 
