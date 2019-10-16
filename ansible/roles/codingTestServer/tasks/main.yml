@@ -93,7 +93,8 @@
   sudo: yes
   shell: "{{ item }}"
   with_items:
-    - sh ~/code/setWSGIModule.sh
+    - . ~/code/setWSGIModule.sh
+
 
 - name: Make Project Directory
   file:
@@ -104,6 +105,18 @@
   copy:
     src: codingTest
     dest: /usr/local/django/
+
+
+- name: Copy Project Setting
+  copy:
+    src: setProject.sh
+    dest: ~/code/setProject.sh
+
+- name: Set Project
+  sudo: yes
+  shell: "{{ item }}"
+  with_items:
+    - . ~/code/setProject.sh
 
 
 - name: Start httpd
