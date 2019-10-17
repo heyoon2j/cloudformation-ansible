@@ -57,6 +57,18 @@ cfnrole = t.add_resource(Role(
 					),
 				],
 			)
+		),
+		Policy(
+			PolicyName="LambdaPolicyForCodingTestRole",
+			PolicyDocument=PolicyDocument(
+				Statement=[
+					Statement(
+						Effect=Allow,
+						Action=[Action("rds","*")],
+						Resource=["*"]
+					),
+				],
+			)
 		)
 	]
 ))
