@@ -1,13 +1,13 @@
 
 """Generating CloudFormation template."""
 from troposphere import(Base64, ec2, GetAtt, Join, Output, Parameter, Ref, Template, FindInMap)
-from troposphere.iam import (InstanceProfile, PolicyType as IAMPolicy, Role)
-from awacs.aws import (Action, Allow, Policy, PolicyDocument, Principal, Statement)
+from troposphere.iam import (InstanceProfile, PolicyType as IAMPolicy, Role, Policy)
+from awacs.aws import (Action, Allow, PolicyDocument, Principal, Statement)
 from awacs.sts import AssumeRole
 
 
-AnsiblePlaybookFile = "ansible/deployServer.yml"
-ApplicationPort = "80"
+AnsiblePlaybookFile = "ansible/manageServer.yml"
+ApplicationPort = "9000"
 GithubAnsibleURL = "https://github.com/yoon2ix/cloudformation-ansible.git"
 VpcID = "vpc-0a93272040286fd79"
 SubnetID = "subnet-07f69f1a00576f7de"
@@ -15,7 +15,7 @@ SubnetID = "subnet-07f69f1a00576f7de"
 
 t= Template()
 
-t.add_description("Effective DevOps in AWS: Deploy Template")
+t.add_description("Effective DevOps in AWS: ManageServer Template")
 
 # Deploy Server for Ansible
 AnsiblePullCmd = "/usr/bin/ansible-pull -U {} {} -i localhost".format(GithubAnsibleURL, AnsiblePlaybookFile)
@@ -32,7 +32,23 @@ cfnrole = t.add_resource(Role(
 				Principal=Principal("Service", ["ec2.amazonaws.com"])
 			)
 		]
-	)
+	),
+	RoleName="manageServerRole",
+	Policies=[
+		Policy(
+			PolicyName="RDSPolicyForManageServerRole",
+			PolicyDocument=PolicyDocument(
+				Version="2012-10-17",
+				Statement=[
+					Statement(
+						Effect=Allow,
+						Action=[Action("rds","*")],
+						Resource=["*"]
+					),
+				],
+			)
+		)
+	]
 ))
 
 cfninstanceprofile = t.add_resource(InstanceProfile(
@@ -56,7 +72,7 @@ security_param=t.add_resource(
 	ec2.SecurityGroup(
 		"SecurityGroup",
 		GroupDescription="Allow SSH and TCP/{} access".format(ApplicationPort),
-		GroupName="DeployServer-SG",
+		GroupName="ManageServer-SG",
 		VpcId=VpcID,
 		SecurityGroupIngress=[
 			ec2.SecurityGroupRule(
@@ -71,6 +87,24 @@ security_param=t.add_resource(
 				ToPort="80",
 				CidrIp="0.0.0.0/0",
 			),
+                        ec2.SecurityGroupRule(
+                                IpProtocol="tcp",
+                                FromPort=ApplicationPort,
+                                ToPort=ApplicationPort,
+                                CidrIp="0.0.0.0/0",
+                        ),
+			ec2.SecurityGroupRule(
+                                IpProtocol="tcp",
+                                FromPort="8000",
+                                ToPort="8000",
+                                CidrIp="0.0.0.0/0",
+                        ),
+                        ec2.SecurityGroupRule(
+                                IpProtocol="tcp",
+                                FromPort="3306",
+                                ToPort="3306",
+                                CidrIp="0.0.0.0/0",
+                        ),
 		],
 		
 	)
@@ -132,7 +166,7 @@ ec2_instance=t.add_resource(
 		UserData=ud,
 		IamInstanceProfile=Ref(cfninstanceprofile),
 		Tags=[
-			{ "Key" : "Name", "Value" : "deployServer"}
+			{ "Key" : "Name", "Value" : "manageServer"}
 		],
 	)
 )
@@ -159,6 +193,6 @@ t.add_output([
 	),
 ])
 
-print t.to_json()
+print(t.to_json())
 
 

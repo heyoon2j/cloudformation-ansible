@@ -1,0 +1,15 @@
+{
+	"Stack" : {
+		"Type" : "AWS::CloudFormation::Stack",
+		"Properties" : {
+			"StackName" : "ManageServer",
+			"Parameters" : [
+				{
+					"ParameterKey" : "KeyPair",
+					"ParameterValue" : "CodingTestKey"
+				}
+			],
+			"Capabilities" : ["CAPABILITY_NAMED_IAM"]
+		}
+	}
+}

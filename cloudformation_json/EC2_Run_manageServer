@@ -1,5 +1,5 @@
 {
-    "Description": "Effective DevOps in AWS: CodingTest Template",
+    "Description": "Effective DevOps in AWS: ManageServer Template",
     "Mappings": {
         "RegionMap": {
             "ap-northeast-1": {
@@ -55,7 +55,7 @@
                             ]
                         },
                         ":",
-                        "8000"
+                        "9000"
                     ]
                 ]
             }
@@ -102,23 +102,6 @@
                             "Statement": [
                                 {
                                     "Action": [
-                                        "s3:*"
-                                    ],
-                                    "Effect": "Allow",
-                                    "Resource": [
-                                        "*"
-                                    ]
-                                }
-                            ],
-                            "Version": "2012-10-17"
-                        },
-                        "PolicyName": "S3PolicyForCodingTestRole"
-                    },
-                    {
-                        "PolicyDocument": {
-                            "Statement": [
-                                {
-                                    "Action": [
                                         "rds:*"
                                     ],
                                     "Effect": "Allow",
@@ -129,52 +112,23 @@
                             ],
                             "Version": "2012-10-17"
                         },
-                        "PolicyName": "RDSPolicyForCodingTestRole"
-                    },
-                    {
-                        "PolicyDocument": {
-                            "Statement": [
-                                {
-                                    "Action": [
-                                        "lambda:*"
-                                    ],
-                                    "Effect": "Allow",
-                                    "Resource": [
-                                        "*"
-                                    ]
-                                }
-                            ],
-                            "Version": "2012-10-17"
-                        },
-                        "PolicyName": "LambdaPolicyForCodingTestRole"
+                        "PolicyName": "RDSPolicyForManageServerRole"
                     }
                 ],
-                "RoleName": "codingTestRole"
+                "RoleName": "manageServerRole"
             },
             "Type": "AWS::IAM::Role"
         },
         "SecurityGroup": {
             "Properties": {
-                "GroupDescription": "Allow SSH and TCP/8000 access",
-                "GroupName": "CodingTest-SG",
+                "GroupDescription": "Allow SSH and TCP/9000 access",
+                "GroupName": "ManageServer-SG",
                 "SecurityGroupIngress": [
                     {
                         "CidrIp": "0.0.0.0/0",
                         "FromPort": "22",
                         "IpProtocol": "tcp",
                         "ToPort": "22"
-                    },
-                    {
-                        "CidrIp": "0.0.0.0/0",
-                        "FromPort": "3306",
-                        "IpProtocol": "tcp",
-                        "ToPort": "3306"
-                    },
-                    {
-                        "CidrIp": "0.0.0.0/0",
-                        "FromPort": "8000",
-                        "IpProtocol": "tcp",
-                        "ToPort": "8000"
                     },
                     {
                         "CidrIp": "0.0.0.0/0",
@@ -187,6 +141,18 @@
                         "FromPort": "9000",
                         "IpProtocol": "tcp",
                         "ToPort": "9000"
+                    },
+                    {
+                        "CidrIp": "0.0.0.0/0",
+                        "FromPort": "8000",
+                        "IpProtocol": "tcp",
+                        "ToPort": "8000"
+                    },
+                    {
+                        "CidrIp": "0.0.0.0/0",
+                        "FromPort": "3306",
+                        "IpProtocol": "tcp",
+                        "ToPort": "3306"
                     }
                 ],
                 "VpcId": "vpc-0a93272040286fd79"
@@ -220,7 +186,7 @@
                 "Tags": [
                     {
                         "Key": "Name",
-                        "Value": "codingTestServer"
+                        "Value": "manageServer"
                     }
                 ],
                 "UserData": {
@@ -253,7 +219,7 @@
                                 "become_method = sudo",
                                 "become_user = root",
                                 "EOF",
-                                "/usr/bin/ansible-pull -U https://github.com/yoon2ix/cloudformation-ansible.git ansible/codingTestServer.yml -i localhost"
+                                "/usr/bin/ansible-pull -U https://github.com/yoon2ix/cloudformation-ansible.git ansible/manageServer.yml -i localhost"
                             ]
                         ]
                     }

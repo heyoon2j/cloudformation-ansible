@@ -124,6 +124,12 @@ security_param=t.add_resource(
                                 ToPort="80",
                                 CidrIp="0.0.0.0/0",
                         ),
+                        ec2.SecurityGroupRule(
+                                IpProtocol="tcp",
+                                FromPort="9000",
+                                ToPort="9000",
+                                CidrIp="0.0.0.0/0",
+                        ),
 		],
 		
 	)
