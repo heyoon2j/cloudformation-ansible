@@ -76,12 +76,7 @@ WSGI_APPLICATION = 'codingTest.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'codingTest', 
-        'UESR': 'codingTest',
-        'PASSWORD': 'It12345!',
-        'HOST': '',
-        'PORT': '3306',
-
+	'NAME': os.path.join(BASE_DIR, 'db.sqlite3')
     }
 }
 
