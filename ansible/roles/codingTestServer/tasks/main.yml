@@ -130,6 +130,12 @@
   args:
     executable: /bin/bash
 
+- name: Set Model(DB)
+  sudo: yes
+  shell: . /usr/local/env/codingTest/bin/activate && python3.6 /usr/local/django/codingTest/manage.py inspectdb > /usr/local/django/codingTest/codingContents/models.py
+  args:
+    executable: /bin/bash
+
 - name: Start httpd
   service:
     name: httpd

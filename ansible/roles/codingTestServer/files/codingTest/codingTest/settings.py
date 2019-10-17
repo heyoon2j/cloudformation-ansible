@@ -79,7 +79,7 @@ DATABASES = {
         'NAME': 'codingTest', 
         'UESR': 'codingTest',
         'PASSWORD': 'It12345!',
-        'HOST': '',
+        'HOST': 'codingtestdb.cq7rwyqbhtdi.ap-northeast-2.rds.amazonaws.com',
         'PORT': '3306',
 
     }
