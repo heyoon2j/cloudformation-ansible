@@ -37,6 +37,7 @@ cfnrole = t.add_resource(Role(
 		Policy(
 			PolicyName="S3PolicyForCodingTestRole",
 			PolicyDocument=PolicyDocument(
+				Version="2012-10-17",
 				Statement=[
 					Statement(
 						Effect=Allow,
@@ -49,6 +50,7 @@ cfnrole = t.add_resource(Role(
 		Policy(
 			PolicyName="RDSPolicyForCodingTestRole",
 			PolicyDocument=PolicyDocument(
+				Version="2012-10-17",
 				Statement=[
 					Statement(
 						Effect=Allow,
@@ -61,10 +63,11 @@ cfnrole = t.add_resource(Role(
 		Policy(
 			PolicyName="LambdaPolicyForCodingTestRole",
 			PolicyDocument=PolicyDocument(
+				Version="2012-10-17",
 				Statement=[
 					Statement(
 						Effect=Allow,
-						Action=[Action("rds","*")],
+						Action=[Action("lambda","*")],
 						Resource=["*"]
 					),
 				],

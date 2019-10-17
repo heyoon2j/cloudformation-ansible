@@ -109,7 +109,8 @@
                                         "*"
                                     ]
                                 }
-                            ]
+                            ],
+                            "Version": "2012-10-17"
                         },
                         "PolicyName": "S3PolicyForCodingTestRole"
                     },
@@ -125,7 +126,8 @@
                                         "*"
                                     ]
                                 }
-                            ]
+                            ],
+                            "Version": "2012-10-17"
                         },
                         "PolicyName": "RDSPolicyForCodingTestRole"
                     },
@@ -134,14 +136,15 @@
                             "Statement": [
                                 {
                                     "Action": [
-                                        "rds:*"
+                                        "lambda:*"
                                     ],
                                     "Effect": "Allow",
                                     "Resource": [
                                         "*"
                                     ]
                                 }
-                            ]
+                            ],
+                            "Version": "2012-10-17"
                         },
                         "PolicyName": "LambdaPolicyForCodingTestRole"
                     }
