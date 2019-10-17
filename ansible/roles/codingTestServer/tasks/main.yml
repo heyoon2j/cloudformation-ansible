@@ -1,6 +1,7 @@
 ---
 # tasks file for codingTestServer
 # Install Django(Apache)
+
 - name: Install EPEL
   yum:
     name: ['epel-release','https://centos7.iuscommunity.org/ius-release.rpm']
@@ -134,25 +135,3 @@
     enabled: yes
     state: started
 
-- name: Config JAVA Environment Variable
-  sudo: yes
-  shell: "{{ item }}"
-  with_items:
-    - echo "export PublicIP=\$(curl ipv4.icanhazip.com)" >> /etc/profile
-    - echo "export publicip=zxcv" >> /etc/profile
-    - source /etc/profile
-  args:
-    executable: /bin/bash
-
-# Shell
-- name: Config JAVA Environment Variable
-  sudo: yes
-  shell: "{{ item }}"
-  with_items:
-    - echo "export JAVA_HOME=/usr/local/java/jdk/" >>  /etc/bashrc
-    - echo 'export PATH=$PATH:$JAVA_HOME/bin' >> /etc/bashrc
-    - echo "export PublicIP=\$(curl ipv4.icanhazip.com)" >> /etc/bashrc
-    - echo "export publicip=zxcv" >> /etc/bashrc
-    - /usr/bin/bash
-  args:
-    executable: /bin/bash
