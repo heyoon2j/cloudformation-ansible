@@ -21,7 +21,8 @@ def sns(request):
 		"client_endpoint":"jysz93@naver.com"		
 	}
 
-	client = boto3.client('lambda', region_name=my_region_name, aws_access_key_id=access_key_id, aws_secret_access_key=secret_access_key)
+	#client = boto3.client('lambda', region_name=my_region_name, aws_access_key_id=access_key_id, aws_secret_access_key=secret_access_key)
+	client = boto3.client('lambda', region_name='ap-northeast-2')
 	response = client.invoke(
 		FunctionName='SubscriptionSNS',
 		InvocationType='RequestResponse',
@@ -38,8 +39,9 @@ def sns_r(request):
 		"client_endpoint":"jysz93@naver.com",
 		"message":"Congraturation!!!"
 	}
-
-	client = boto3.client('lambda', region_name=my_region_name, aws_access_key_id=access_key_id, aws_secret_access_key=secret_access_key)
+	
+	client = boto3.client('lambda', region_name='ap-northeast-2')
+	#client = boto3.client('lambda', region_name=my_region_name, aws_access_key_id=access_key_id, aws_secret_access_key=secret_access_key)
 	response = client.invoke(
 		FunctionName='TestResultSNS',
 		InvocationType='RequestResponse',
