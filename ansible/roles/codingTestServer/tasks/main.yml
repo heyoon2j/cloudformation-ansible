@@ -131,7 +131,7 @@
     executable: /bin/bash
 
 - name: Set
-  shell: echo "export PublicIP=\$(curl ipv4.icanhazip.com)" >> /root/.bashrc && . /root/.bashrc
+  shell: export PublicIP=$(curl ipv4.icanhazip.com)
   args:
     executable: /bin/bash
 
