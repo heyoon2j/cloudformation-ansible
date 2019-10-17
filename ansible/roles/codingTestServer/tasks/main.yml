@@ -46,6 +46,7 @@
     - virtualenv -p python3 /usr/local/env/codingTest
     - . /usr/local/env/codingTest/bin/activate && pip3 install --upgrade pip
     - . /usr/local/env/codingTest/bin/activate && pip3 install django
+    - . /usr/local/env/codingTest/bin/activate && pip3 install boto3
     - pip3 install --upgrade pip
 
 
@@ -129,6 +130,10 @@
   args:
     executable: /bin/bash
 
+- name: Set
+  shell: echo "export PublicIP=\$(curl ipv4.icanhazip.com)" >> /root/.bashrc && . /root/.bashrc
+  args:
+    executable: /bin/bash
 
 - name: Start httpd
   service:
