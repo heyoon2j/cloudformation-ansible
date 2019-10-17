@@ -1,4 +1,4 @@
-- hosts: test
+- hosts: localhost
   become: yes
   become_user: root
   become_method: sudo
