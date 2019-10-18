@@ -47,6 +47,7 @@
     - . /usr/local/env/codingTest/bin/activate && pip3 install --upgrade pip
     - . /usr/local/env/codingTest/bin/activate && pip3 install django
     - . /usr/local/env/codingTest/bin/activate && pip3 install boto3
+    - . /usr/local/env/codingTest/bin/activate && pip3 install requests
     - pip3 install --upgrade pip
 
 
