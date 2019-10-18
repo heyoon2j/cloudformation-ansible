@@ -115,6 +115,18 @@
                         "FromPort": "80",
                         "IpProtocol": "tcp",
                         "ToPort": "80"
+                    },
+                    {
+                        "CidrIp": "0.0.0.0/0",
+                        "FromPort": "9000",
+                        "IpProtocol": "tcp",
+                        "ToPort": "9000"
+                    },
+                    {
+                        "CidrIp": "0.0.0.0/0",
+                        "FromPort": "8000",
+                        "IpProtocol": "tcp",
+                        "ToPort": "8000"
                     }
                 ],
                 "VpcId": "vpc-0a93272040286fd79"
