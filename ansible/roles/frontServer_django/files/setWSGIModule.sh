@@ -8,11 +8,10 @@ projectName='codingTest'
 envPath='/usr/local/env'
 
 echo "ServerName localhost" >> /etc/httpd/conf/httpd.conf
-sed -i "s/Listen 80/Listen 9000/g" /etc/httpd/conf/httpd.conf
 
 touch /etc/httpd/conf.d/vhost.conf
 cat << EOF > /etc/httpd/conf.d/vhost.conf
-<VirtualHost *:9000>
+<VirtualHost *:80>
 
 	ServerName localhost
 	DocumentRoot $documentRoot
